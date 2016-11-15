@@ -20,7 +20,7 @@ RUN R -e 'source("biocLite.R"); install.packages("abind"); library(abind); biocL
 
 RUN rm biocLite.R
 
-RUN wget http://bioconductor.org/packages/release/bioc/src/contrib/riboSeqR_1.6.0.tar.gz
+RUN wget https://www.bioconductor.org/packages/3.3/bioc/src/contrib/riboSeqR_1.6.0.tar.gz
 
 RUN R CMD INSTALL riboSeqR_1.6.0.tar.gz
 

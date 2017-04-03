@@ -1,22 +1,18 @@
-FROM stackbrew/ubuntu:14.04
-MAINTAINER Brad Chapman "https://github.com/chapmanb"
+FROM ubuntu:latest
+MAINTAINER Costas Bouyioukos "https://github.com/cbouyio"
 
-# v1.0.0a -- https://github.com/chapmanb/bcbio-nextgen/commit/33a9ed5
-
-# Setup a base system 
+# Setup a base system
 RUN apt-get update && \
     apt-get install -y curl wget git unzip tar gzip bzip2 xz-utils pigz && \
 # Support inclusion in Arvados pipelines
     apt-get install -y --no-install-recommends libcurl4-gnutls-dev mbuffer python2.7-dev python-virtualenv && \
 # Not added by default to save space
-#   apt-get install -y libglu1-mesa && \
+    apt-get install -y libglu1-mesa && \
 
 # bcbio-nextgen installation
     mkdir -p /tmp/bcbio-nextgen-install && cd /tmp/bcbio-nextgen-install && \
-    wget --no-check-certificate \
-      https://raw.github.com/chapmanb/bcbio-nextgen/master/scripts/bcbio_nextgen_install.py && \
-    python bcbio_nextgen_install.py /usr/local/share/bcbio-nextgen \
-      --isolate --nodata -u development --tooldir=/usr/local && \
+    wget --no-check-certificate https://raw.github.com/chapmanb/bcbio-nextgen/master/scripts/bcbio_nextgen_install.py && \
+    python bcbio_nextgen_install.py /usr/local/share/bcbio-nextgen --isolate --nodata -u development --tooldir=/usr/local && \
     git config --global url.https://github.com/.insteadOf git://github.com/ && \
     /usr/local/share/bcbio-nextgen/anaconda/bin/bcbio_nextgen.py upgrade --isolate --tooldir=/usr/local --tools && \
     /usr/local/share/bcbio-nextgen/anaconda/bin/bcbio_nextgen.py upgrade --isolate -u development --tools && \
@@ -25,12 +21,11 @@ RUN apt-get update && \
     echo 'export PATH=/usr/local/bin:$PATH' >> /etc/profile.d/bcbio.sh && \
 
 # add user run script
-    wget --no-check-certificate -O createsetuser \
-      https://raw.github.com/chapmanb/bcbio-nextgen-vm/master/scripts/createsetuser && \
+    wget --no-check-certificate -O createsetuser https://raw.github.com/chapmanb/bcbio-nextgen-vm/master/scripts/createsetuser && \
     chmod a+x createsetuser && mv createsetuser /sbin && \
 
 # clean filesystem
-    cd /usr/local && \ 
+    cd /usr/local && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /var/tmp/* && \
     /usr/local/share/bcbio-nextgen/anaconda/bin/conda clean --yes --tarballs && \
@@ -39,7 +34,7 @@ RUN apt-get update && \
     rm -rf /.cpanm && \
     rm -rf /tmp/bcbio-nextgen-install && \
 
-# Create directories and symlinks for data 
+# Create directories and symlinks for data
     mkdir -p /mnt/biodata && \
     mkdir -p /tmp/bcbio-nextgen && \
     mv /usr/local/share/bcbio-nextgen/galaxy/bcbio_system.yaml /usr/local/share/bcbio-nextgen/config && \

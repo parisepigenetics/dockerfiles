@@ -12,13 +12,12 @@ MAINTAINER Costas Bouyioukos <costas,.bouyioukos@univ-paris-diderot.fr>
 # Update the repository sources list
 RUN apt-get update
 
-# Install compiler and perl stuff
+# Install compiler
 RUN apt-get install --yes \
   build-essential \
   gcc-multilib \
   apt-utils \
-  zlib1g-dev \
-  vim-common
+  zlib1g-dev
 
 # Install git
 RUN apt-get install -y git
@@ -29,7 +28,7 @@ RUN pwd
 RUN git clone https://github.com/alexdobin/STAR.git
 WORKDIR /usr/local/STAR/
 RUN pwd
-RUN git checkout 2.5.3a 
+RUN git checkout 2.5.3a
 WORKDIR /usr/local/STAR 
 RUN pwd
 RUN make STAR

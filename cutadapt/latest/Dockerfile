@@ -1,0 +1,30 @@
+#######################################################################
+# Dockerfile to build the latest Cutadapt container images
+# Based on Ubuntu
+# Installation instructions from 
+# https://cutadapt.readthedocs.io/en/stable/installation.html
+#######################################################################
+
+# Set the base image to Ubuntu
+FROM ubuntu:latest
+
+# File Author / Maintainer
+MAINTAINER Costas Bouyioukos <costas.bouyioukos@univ-paris-diderot.fr>
+
+# Update the repository sources list
+RUN apt-get update
+RUN apt-get upgrade --yes
+
+# Install pip and cutadapt required libraries
+RUN apt-get install --yes \
+  python-pip \
+  build-essential \
+  libpython2.7-dev
+
+# Install cutadapt
+RUN pip install --user --upgrade cutadapt
+
+
+# Clean
+RUN apt-get clean ; apt-get remove --yes --purge build-essential ; apt-get autoremove --yes
+

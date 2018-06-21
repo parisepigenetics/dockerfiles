@@ -17,7 +17,7 @@ RUN apt-get upgrade --yes
 
 # Install pip and cutadapt required libraries
 RUN apt-get install --yes \
-  openjdk-7-jre \
+  openjdk-8-jre \
   perl \
   unzip
 

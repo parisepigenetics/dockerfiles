@@ -19,12 +19,12 @@ RUN apt-get upgrade --yes
 RUN apt-get install --yes \
   python-pip \
   build-essential \
-  libpython2.7-dev
+  python-dev
 
 # Install cutadapt
-RUN pip install --user --upgrade cutadapt
-
+RUN sudo -H pip install cutadapt
+RUN cp .local/bin/cutadapt /usr/local/sbin/
 
 # Clean
-RUN apt-get clean ; apt-get remove --yes --purge build-essential ; apt-get autoremove --yes
+RUN apt-get remove --yes --purge build-essential ; apt-get autoclean; apt-get autoremove --yes
 

@@ -17,12 +17,12 @@ RUN apt-get upgrade --yes
 
 # Install pip and cutadapt required libraries
 RUN apt-get install --yes \
-  python-pip \
+  python3-pip \
   build-essential \
   python-dev
 
 # Install cutadapt
-RUN sudo -H pip install cutadapt
+RUN pip3 install cutadapt
 RUN cp .local/bin/cutadapt /usr/local/sbin/
 
 # Clean

@@ -23,7 +23,7 @@ RUN apt-get install --yes \
 
 # Install cutadapt
 RUN pip3 install cutadapt
-RUN cp .local/bin/cutadapt /usr/local/sbin/
+#RUN cp .local/bin/cutadapt /usr/local/sbin/
 
 # Clean
 RUN apt-get remove --yes --purge build-essential ; apt-get autoclean; apt-get autoremove --yes
